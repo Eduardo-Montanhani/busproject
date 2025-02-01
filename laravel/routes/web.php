@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\UsuarioLoginController;
 use App\Http\Controllers\PoltronaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
@@ -20,6 +21,19 @@ Route::get('/', function () {
 
 Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('users.create');
 Route::post('/usuarios', [UsuarioController::class, 'store'])->name('users.store');
+
+////
+Route::get('/usuario/login', function () {
+    return view('auth.login');
+});
+
+Route::middleware('auth:usuarios')->group(function () {
+    Route::get('/poltronas/disponiveis', [PoltronaController::class, 'disponiveis'])->name('poltronas.disponiveis');
+    Route::post('/poltronas/reservar/{id}', [PoltronaController::class, 'reservar'])->name('poltronas.reservar');
+});
+
+Route::post('/usuario/login', [UsuarioLoginController::class, 'login'])->name('usuario.login');
+//
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

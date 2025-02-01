@@ -40,7 +40,7 @@ class UsuarioController extends Controller
         ]);
 
         // Redireciona para a lista de usuários com sucesso
-        return redirect()->route('users.index')->with('success', 'Usuário criado com sucesso!');
+        return redirect()->route('usuario.login')->with('success', 'Usuário criado com sucesso!');
     }
 
     public function destroy(Usuario $user)
