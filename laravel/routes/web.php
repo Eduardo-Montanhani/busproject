@@ -4,6 +4,9 @@ use App\Http\Controllers\Auth\UsuarioLoginController;
 use App\Http\Controllers\PoltronaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
+use App\Models\Poltrona;
+use App\Models\Usuario;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +20,15 @@ Route::get('/', function () {
         'laravelVersion' => Application::VERSION,
         'phpVersion' => PHP_VERSION,
     ]);
+});
+
+Route::get('/export-pdf', function () {
+    $users = Usuario::all();
+    $poltronas = Poltrona::with('usuario')->get();
+
+    $pdf = Pdf::loadView('pdf.dashboard', compact('users', 'poltronas'));
+
+    return $pdf->download('dashboard.pdf');
 });
 
 Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('users.create');

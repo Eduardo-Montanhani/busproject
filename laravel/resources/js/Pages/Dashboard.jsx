@@ -88,6 +88,13 @@ export default function Dashboard({ users, poltronas }) {
                                     >
                                         Cadastre Poltrona
                                     </Link>
+                                    <a
+                                        href="/export-pdf"
+                                        className="px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition text-sm"
+                                    >
+                                        Baixar PDF
+                                    </a>
+
 
                                     <h3 className="text-lg font-semibold">Poltronas Cadastradas</h3>
                                     <table className="min-w-full mt-4 border-collapse text-gray-300">
