@@ -13,6 +13,33 @@ export default function Dashboard({ users, poltronas }) {
         const url = tab === 'users' ? '/users' : '/poltronas';
         Inertia.visit(url, { preserveState: false, replace: true }); // Usando replace para garantir que a URL seja atualizada
     };
+    const handleDeletePoltrona = (id) => {
+        if (confirm("Tem certeza que deseja excluir esta poltrona?")) {
+            Inertia.delete(`/poltronas/${id}`, {
+                onSuccess: () => {
+                    alert("Poltrona excluída com sucesso!");
+                },
+                onError: (errors) => {
+                    alert("Erro ao excluir a poltrona.");
+                    console.error(errors);
+                }
+            });
+        }
+    };
+    const handleDeleteUser = (id) => {
+        if (confirm("Tem certeza que deseja excluir este usuario ?")) {
+            Inertia.delete(`/users/${id}`, {
+                onSuccess: () => {
+                    alert("Usuario excluido com sucesso!");
+                },
+                onError: (errors) => {
+                    alert("Erro ao excluir usuario.");
+                    console.error(errors);
+                }
+            });
+        }
+    };
+
 
     useEffect(() => {
         // Verifica se a URL já possui o parâmetro correto de aba e ajusta o estado
@@ -66,16 +93,25 @@ export default function Dashboard({ users, poltronas }) {
                                                     <tr key={user.id}>
                                                         <td className="border-b p-2">{user.nome}</td>
                                                         <td className="border-b p-2">{user.cpf}</td>
+                                                        <td className="border-b p-2 text-center">
+                                                            <button
+                                                                onClick={() => handleDeleteUser(user.id)}
+                                                                className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                                                            >
+                                                                Excluir
+                                                            </button>
+                                                        </td>
                                                     </tr>
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td colSpan="2" className="border-b p-2 text-center">
+                                                    <td colSpan="3" className="border-b p-2 text-center">
                                                         Nenhum usuário encontrado.
                                                     </td>
                                                 </tr>
                                             )}
                                         </tbody>
+
                                     </table>
                                 </>
                             )}
@@ -110,15 +146,21 @@ export default function Dashboard({ users, poltronas }) {
                                                     <tr key={poltrona.id}>
                                                         <td className="border-b p-2">{poltrona.numero}</td>
                                                         <td className="border-b p-2">
-                                                            {poltrona.usuario
-                                                                ? poltrona.usuario.nome
-                                                                : 'Nenhum usuário associado'}
+                                                            {poltrona.usuario ? poltrona.usuario.nome : 'Nenhum usuário associado'}
+                                                        </td>
+                                                        <td className="border-b p-2 text-center">
+                                                            <button
+                                                                onClick={() => handleDeletePoltrona(poltrona.id)}
+                                                                className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                                                            >
+                                                                Excluir
+                                                            </button>
                                                         </td>
                                                     </tr>
                                                 ))
                                             ) : (
                                                 <tr>
-                                                    <td colSpan="2" className="border-b p-2 text-center">
+                                                    <td colSpan="3" className="border-b p-2 text-center">
                                                         Nenhuma poltrona encontrada.
                                                     </td>
                                                 </tr>

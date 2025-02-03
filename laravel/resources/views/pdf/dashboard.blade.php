@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-    <h2>Lista de Usuários</h2>
+    <!-- <h2>Lista de Usuários</h2>
     <table>
         <tr><th>Nome</th><th>CPF</th></tr>
         @foreach($users as $user)
@@ -21,7 +21,7 @@
                 <td>{{ $user->cpf }}</td>
             </tr>
         @endforeach
-    </table>
+    </table> -->
 
     <h2>Lista de Poltronas</h2>
     <table>

@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/poltronas/create', [PoltronaController::class, 'create'])->name('poltronas.create');
     // Armazenar a poltrona criada
     Route::post('/poltronas', [PoltronaController::class, 'store'])->name('poltronas.store');
+    Route::delete('/poltronas/{id}', [PoltronaController::class, 'destroy'])->name('poltronas.destroy');
 });
 
 require __DIR__ . '/auth.php';

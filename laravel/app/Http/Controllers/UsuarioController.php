@@ -43,10 +43,11 @@ class UsuarioController extends Controller
         return redirect()->route('usuario.login')->with('success', 'Usuário criado com sucesso!');
     }
 
-    public function destroy(Usuario $user)
+    public function destroy(string $id)
     {
-        // Deleta o usuário
-        $user->delete();
-        return redirect()->route('users.index')->with('success', 'Usuário excluído com sucesso!');
+        $poltrona = Usuario::findOrFail($id); // Encontra a poltrona pelo ID
+        $poltrona->delete(); // Deleta a poltrona
+
+        return redirect()->route('users.index')->with('success', 'Poltrona deletada com sucesso!');
     }
 }
