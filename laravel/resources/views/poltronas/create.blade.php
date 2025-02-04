@@ -19,7 +19,7 @@
 
                             <div class="mb-3">
                                 <label for="numero" class="form-label">Número da Poltrona</label>
-                                <input type="text" id="numero" name="numero" class="form-control" required>
+                                <input type="number" id="numero" name="numero" class="form-control" required>
                             </div>
 
                             <div class="mb-3">

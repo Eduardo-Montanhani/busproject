@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\UsuarioLoginController;
 use App\Http\Controllers\PoltronaController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Middleware\RedirectIfNotUsuario;
 use App\Models\Poltrona;
 use App\Models\Usuario;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -39,10 +40,11 @@ Route::get('/usuario/login', function () {
     return view('auth.login');
 });
 
-Route::middleware('auth:usuarios')->group(function () {
+Route::middleware(RedirectIfNotUsuario::class)->group(function () {
     Route::get('/poltronas/disponiveis', [PoltronaController::class, 'disponiveis'])->name('poltronas.disponiveis');
     Route::post('/poltronas/reservar/{id}', [PoltronaController::class, 'reservar'])->name('poltronas.reservar');
 });
+
 
 Route::post('/usuario/login', [UsuarioLoginController::class, 'login'])->name('usuario.login');
 //

@@ -45,13 +45,18 @@ class PoltronaController extends Controller
      */
     public function index()
     {
-        $poltronas = Poltrona::with('usuario')->get(); // Recupera todas as poltronas com a relação do usuário
+        // Ordena as poltronas pelo campo 'numero' de forma ascendente
+        $poltronas = Poltrona::with('usuario')
+            ->orderBy('numero', 'asc')
+            ->get();
+
         $usuarios = Usuario::all(); // Obtém todos os usuários
         return Inertia::render('Dashboard', [
             'poltronas' => $poltronas,
             'usuarios' => $usuarios, // Passa os usuários para a view
         ]);
     }
+
 
     /**
      * Exibe os detalhes de uma poltrona específica.

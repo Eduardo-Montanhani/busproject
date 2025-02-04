@@ -6,6 +6,12 @@ import { Head } from '@inertiajs/react';
 
 export default function Dashboard({ users, poltronas }) {
     const [selectedTab, setSelectedTab] = useState('users'); // Estado para controlar a aba selecionada
+    // Função para formatar um CPF (assumindo que seja uma string com 11 dígitos)
+    const formatCPF = (cpf) => {
+        if (!cpf) return '';
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    };
+
 
     // Função para alternar entre as abas e atualizar a URL
     const handleTabClick = (tab) => {
@@ -92,7 +98,7 @@ export default function Dashboard({ users, poltronas }) {
                                                 users.map((user) => (
                                                     <tr key={user.id}>
                                                         <td className="border-b p-2">{user.nome}</td>
-                                                        <td className="border-b p-2">{user.cpf}</td>
+                                                        <td className="border-b p-2">{formatCPF(user.cpf)}</td>
                                                         <td className="border-b p-2 text-center">
                                                             <button
                                                                 onClick={() => handleDeleteUser(user.id)}
@@ -110,6 +116,7 @@ export default function Dashboard({ users, poltronas }) {
                                                     </td>
                                                 </tr>
                                             )}
+
                                         </tbody>
 
                                     </table>
