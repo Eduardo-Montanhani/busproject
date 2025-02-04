@@ -25,10 +25,11 @@
 
     <h2>Lista de Poltronas</h2>
     <table>
-        <tr><th>Número</th><th>Usuário Associado</th></tr>
+        <tr><th>Número</th><th>Ônibus</th><th>Usuário Associado</th></tr>
         @foreach($poltronas as $poltrona)
             <tr>
                 <td>{{ $poltrona->numero }}</td>
+                <td>{{ $poltrona->onibus }}</td>
                 <td>{{ $poltrona->usuario ? $poltrona->usuario->nome : 'Nenhum' }}</td>
             </tr>
         @endforeach

@@ -10,7 +10,7 @@ class Poltrona extends Model
     use HasFactory;
 
     // Defina os campos que podem ser preenchidos
-    protected $fillable = ['numero', 'usuario_id'];
+    protected $fillable = ['numero', 'usuario_id', 'onibus'];
 
     // Relacionamento com o modelo Usuario (um usuário pode ter várias poltronas)
     public function usuario()

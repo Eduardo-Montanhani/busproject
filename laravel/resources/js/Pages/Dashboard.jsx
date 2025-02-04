@@ -144,7 +144,9 @@ export default function Dashboard({ users, poltronas }) {
                                         <thead>
                                             <tr>
                                                 <th className="border-b p-2">Número da Poltrona</th>
+                                                <th className="border-b p-2">Ônibus Associado</th>
                                                 <th className="border-b p-2">Usuário Associado</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -152,6 +154,7 @@ export default function Dashboard({ users, poltronas }) {
                                                 poltronas.map((poltrona) => (
                                                     <tr key={poltrona.id}>
                                                         <td className="border-b p-2">{poltrona.numero}</td>
+                                                        <td className="border-b p-2">{poltrona.onibus}</td>
                                                         <td className="border-b p-2">
                                                             {poltrona.usuario ? poltrona.usuario.nome : 'Nenhum usuário associado'}
                                                         </td>

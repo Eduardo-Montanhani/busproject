@@ -27,13 +27,15 @@ class PoltronaController extends Controller
         // Validando o número da poltrona e o usuário
         $request->validate([
             'numero' => 'required|unique:poltronas,numero|integer',
-            'usuario_id' => 'nullable|exists:usuarios,id', // O usuário é opcional, mas se for passado, deve existir
+            'usuario_id' => 'nullable|exists:usuarios,id',
+            'onibus' => 'required|string', // O usuário é opcional, mas se for passado, deve existir
         ]);
 
         // Criando a nova poltrona
         $poltrona = new Poltrona();
         $poltrona->numero = $request->numero;
         $poltrona->usuario_id = $request->usuario_id;
+        $poltrona->onibus = $request->onibus;
         $poltrona->save(); // Salvando a poltrona no banco de dados
 
         // Redireciona para a lista de poltronas com uma mensagem de sucesso
@@ -45,9 +47,9 @@ class PoltronaController extends Controller
      */
     public function index()
     {
-        // Ordena as poltronas pelo campo 'numero' de forma ascendente
+        // Ordena as poltronas pelo campo 'numero' de forma numérica, tratando como integer
         $poltronas = Poltrona::with('usuario')
-            ->orderBy('numero', 'asc')
+            ->orderByRaw('CAST(numero AS UNSIGNED) ASC') // Força a ordenação numérica
             ->get();
 
         $usuarios = Usuario::all(); // Obtém todos os usuários
@@ -56,6 +58,7 @@ class PoltronaController extends Controller
             'usuarios' => $usuarios, // Passa os usuários para a view
         ]);
     }
+
 
 
     /**

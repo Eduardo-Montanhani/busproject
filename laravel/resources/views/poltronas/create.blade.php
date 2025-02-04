@@ -32,6 +32,15 @@
                                 </select>
                             </div>
 
+                            <!-- Adicionando o campo para selecionar o ônibus -->
+                            <div class="mb-3">
+                                <label for="onibus" class="form-label">Escolha o Ônibus</label>
+                                <select class="form-select" id="onibus" name="onibus" required>
+                                    <option value="Onibus 1">Onibus 1</option>
+                                    <option value="Onibus 2">Onibus 2</option>
+                                </select>
+                            </div>
+
                             <button type="submit" class="btn btn-primary w-100">Cadastrar Poltrona</button>
                         </form>
                     </div>
