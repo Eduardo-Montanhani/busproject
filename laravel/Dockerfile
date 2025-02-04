@@ -24,4 +24,4 @@ RUN composer install
 EXPOSE 80
 
 # Comando para rodar as migrações e iniciar o servidor
-CMD ["sh", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=80"]
+CMD ["sh", "-c", "php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8000"]
