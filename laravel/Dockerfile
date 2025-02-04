@@ -15,7 +15,7 @@ RUN docker-php-ext-install pdo_mysql mbstring
 
 WORKDIR /app
 
-COPY . /app
+COPY ./laravel /app
 
 # Instala as dependências do Laravel
 RUN composer install
@@ -24,4 +24,4 @@ RUN composer install
 EXPOSE 80
 
 # Comando para rodar as migrações e iniciar o servidor
-CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=80
+CMD php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=80
