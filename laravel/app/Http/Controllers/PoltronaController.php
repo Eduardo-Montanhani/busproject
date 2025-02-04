@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Poltrona; // Importando o modelo Poltrona
 use App\Models\Usuario;  // Importando o modelo Usuario
-use Illuminate\Container\Attributes\Auth;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class PoltronaController extends Controller
@@ -81,15 +82,23 @@ class PoltronaController extends Controller
         ]);
     }
 
-
     public function reservar($id)
     {
         $usuarioId = \Illuminate\Support\Facades\Auth::id(); // Obtém o ID do usuário autenticado
 
-        // Verifica se o usuário já reservou uma poltrona
+        if (!$usuarioId) {
+            return redirect()->route('usuario.login')->with('error', 'Você precisa estar logado para reservar uma poltrona.');
+        }
+
+        // Verifica se o usuário existe
         $usuario = Usuario::find($usuarioId);
+
+        if (!$usuario) {
+            return redirect()->route('usuario.login')->with('error', 'Usuário não encontrado.');
+        }
+
         // Verifica se o usuário já tem uma poltrona associada
-        if ($usuario->poltronas()->exists()) {
+        if ($usuario->poltrona()->exists()) {
             return redirect()->route('poltronas.disponiveis')->with('error', 'Você já reservou uma poltrona!');
         }
 

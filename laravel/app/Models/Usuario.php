@@ -51,8 +51,8 @@ class Usuario extends Model implements Authenticatable
         return 'remember_token';
     }
 
-    public function poltronas()
+    public function poltrona()
     {
-        return $this->hasMany(Poltrona::class);
+        return $this->hasMany(Poltrona::class, 'usuario_id'); // Um usuário pode ter muitas poltronas
     }
 }

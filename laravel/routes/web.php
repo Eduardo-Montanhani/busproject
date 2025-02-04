@@ -40,11 +40,10 @@ Route::get('/usuario/login', function () {
     return view('auth.login');
 });
 
-Route::middleware(RedirectIfNotUsuario::class)->group(function () {
+Route::middleware('auth:usuarios')->group(function () {
     Route::get('/poltronas/disponiveis', [PoltronaController::class, 'disponiveis'])->name('poltronas.disponiveis');
     Route::post('/poltronas/reservar/{id}', [PoltronaController::class, 'reservar'])->name('poltronas.reservar');
 });
-
 
 Route::post('/usuario/login', [UsuarioLoginController::class, 'login'])->name('usuario.login');
 //

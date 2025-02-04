@@ -15,6 +15,6 @@ class Poltrona extends Model
     // Relacionamento com o modelo Usuario (um usuário pode ter várias poltronas)
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class);
+        return $this->belongsTo(Usuario::class, 'usuario_id'); // Uma poltrona pertence a um usuário
     }
 }
