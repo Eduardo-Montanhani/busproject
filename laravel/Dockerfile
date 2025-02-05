@@ -41,9 +41,6 @@ RUN npm install
 # Compile os assets do front-end (caso use Vite/Laravel Mix)
 RUN npm run build
 
-# Gerar a chave do Laravel
-RUN php artisan key:generate
-
 # Configure o Apache para apontar para a pasta public/
 COPY ./laravel/apache-laravel.conf /etc/apache2/sites-available/000-default.conf
 RUN a2enmod rewrite
