@@ -74,7 +74,7 @@
 
                             <div class="mb-3">
                                 <label for="cpf" class="form-label">CPF</label>
-                                <input type="text" id="cpf" name="cpf" maxlength="11" class="form-control bg-dark text-white border-light" oninput="validarCPF()" required>
+                                <input type="text" id="cpf" name="cpf" maxlength="14" class="form-control bg-dark text-white border-light" oninput="validarCPF()" required>
                             </div>
 
                             <div class="mb-3">
@@ -96,24 +96,34 @@
     <script>
         function validarCPF() {
             let cpf = document.getElementById('cpf').value;
-            cpf = cpf.replace(/\D/g, '');
+            cpf = cpf.replace(/\D/g, ''); // Remove qualquer caractere não numérico
 
             if (cpf.length > 11) {
                 cpf = cpf.substring(0, 11);
             }
-            document.getElementById('cpf').value = cpf;
+
+            // Adiciona a máscara no CPF
+            document.getElementById('cpf').value = cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
         }
 
         function validarFormulario(event) {
-            const cpf = document.getElementById('cpf').value;
+            // Remove apenas os pontos e o hífen do CPF
+            let cpf = document.getElementById('cpf').value;
+            cpf = cpf.replace(/[.-]/g, ''); // Remove os pontos e o hífen
+
+            // Atualiza o campo de CPF para enviar sem máscara
+            document.getElementById('cpf').value = cpf;
+
             const senha = document.getElementById('senha').value;
 
-            if (cpf.length !== 11) {
-                alert('O CPF deve ter exatamente 11 números.');
+            // Verificação do CPF
+            if (!validarCPFExistente(cpf)) {
+                alert('CPF inválido. Verifique os números digitados.');
                 event.preventDefault();
                 return false;
             }
 
+            // Verificação da senha
             if (senha.length < 6) {
                 alert('A senha deve ter pelo menos 6 caracteres.');
                 event.preventDefault();
@@ -121,6 +131,38 @@
             }
 
             return true;
+        }
+
+
+
+
+        // Função para validar CPF com base no cálculo dos dígitos verificadores
+        function validarCPFExistente(cpf) {
+            if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
+                // Verifica se o CPF tem 11 dígitos e não é uma sequência repetitiva (ex: 111.111.111.11)
+                return false;
+            }
+
+            // Cálculo do primeiro dígito verificador
+            let soma1 = 0;
+            for (let i = 0; i < 9; i++) {
+                soma1 += parseInt(cpf.charAt(i)) * (10 - i);
+            }
+
+            let digito1 = 11 - (soma1 % 11);
+            if (digito1 === 10 || digito1 === 11) digito1 = 0;
+
+            // Cálculo do segundo dígito verificador
+            let soma2 = 0;
+            for (let i = 0; i < 10; i++) {
+                soma2 += parseInt(cpf.charAt(i)) * (11 - i);
+            }
+
+            let digito2 = 11 - (soma2 % 11);
+            if (digito2 === 10 || digito2 === 11) digito2 = 0;
+
+            // Verifica se os dígitos verificadores são válidos
+            return cpf.charAt(9) == digito1 && cpf.charAt(10) == digito2;
         }
     </script>
 </body>
