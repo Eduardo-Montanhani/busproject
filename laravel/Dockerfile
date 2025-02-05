@@ -41,8 +41,7 @@ RUN npm install
 # Compile os assets do front-end (caso use Vite/Laravel Mix)
 RUN npm run build
 
-# Copie o arquivo .env e gere a chave do Laravel
-COPY ./laravel/.env /var/www/html/.env
+# Gerar a chave do Laravel
 RUN php artisan key:generate
 
 # Configure o Apache para apontar para a pasta public/
