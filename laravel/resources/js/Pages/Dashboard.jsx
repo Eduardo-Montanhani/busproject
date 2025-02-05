@@ -131,54 +131,66 @@ export default function Dashboard({ users, poltronas }) {
                                     >
                                         Cadastre Poltrona
                                     </Link>
-                                    <a
-                                        href="/export-pdf"
-                                        className="px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition text-sm"
-                                    >
-                                        Baixar PDF
-                                    </a>
-
-
+                                    <form action="/export-pdf" method="GET" class="flex items-center space-x-4">
+                                        <label for="onibus" class="text-sm text">Escolha o Ônibus:</label>
+                                        <select name="onibus" id="onibus" class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 bg-white text-gray-800 text-sm">
+                                            <option value="Onibus 1">Ônibus 1</option>
+                                            <option value="Onibus 2">Ônibus 2</option>
+                                        </select>
+                                        <button type="submit" class="px-4 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition text-sm">
+                                            Gerar PDF
+                                        </button>
+                                    </form>
                                     <h3 className="text-lg font-semibold">Poltronas Cadastradas</h3>
-                                    <table className="min-w-full mt-4 border-collapse text-gray-300">
-                                        <thead>
-                                            <tr>
-                                                <th className="border-b p-2">Número da Poltrona</th>
-                                                <th className="border-b p-2">Ônibus Associado</th>
-                                                <th className="border-b p-2">Usuário Associado</th>
 
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {Array.isArray(poltronas) && poltronas.length > 0 ? (
-                                                poltronas.map((poltrona) => (
-                                                    <tr key={poltrona.id}>
-                                                        <td className="border-b p-2">{poltrona.numero}</td>
-                                                        <td className="border-b p-2">{poltrona.onibus}</td>
-                                                        <td className="border-b p-2">
-                                                            {poltrona.usuario ? poltrona.usuario.nome : 'Nenhum usuário associado'}
-                                                        </td>
-                                                        <td className="border-b p-2 text-center">
-                                                            <button
-                                                                onClick={() => handleDeletePoltrona(poltrona.id)}
-                                                                className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
-                                                            >
-                                                                Excluir
-                                                            </button>
-                                                        </td>
+                                    {/* Separando poltronas por ônibus */}
+                                    {['Onibus 1', 'Onibus 2'].map((onibus) => (
+                                        <div key={onibus} className="mt-6">
+                                            <h4 className="text-md font-semibold bg-gray-700 text-white px-4 py-2 rounded-md">
+                                                {onibus}
+                                            </h4>
+                                            <table className="min-w-full mt-4 border-collapse text-gray-300">
+                                                <thead>
+                                                    <tr>
+                                                        <th className="border-b p-2">Número da Poltrona</th>
+                                                        <th className="border-b p-2">Usuário Associado</th>
+                                                        <th className="border-b p-2">Ações</th>
                                                     </tr>
-                                                ))
-                                            ) : (
-                                                <tr>
-                                                    <td colSpan="3" className="border-b p-2 text-center">
-                                                        Nenhuma poltrona encontrada.
-                                                    </td>
-                                                </tr>
-                                            )}
-                                        </tbody>
-                                    </table>
+                                                </thead>
+                                                <tbody>
+                                                    {poltronas.filter(p => p.onibus === onibus).length > 0 ? (
+                                                        poltronas
+                                                            .filter(p => p.onibus === onibus)
+                                                            .map((poltrona) => (
+                                                                <tr key={poltrona.id}>
+                                                                    <td className="border-b p-2">{poltrona.numero}</td>
+                                                                    <td className="border-b p-2">
+                                                                        {poltrona.usuario ? poltrona.usuario.nome : 'Nenhum usuário associado'}
+                                                                    </td>
+                                                                    <td className="border-b p-2 text-center">
+                                                                        <button
+                                                                            onClick={() => handleDeletePoltrona(poltrona.id)}
+                                                                            className="px-3 py-1 bg-red-600 text-white rounded hover:bg-red-700"
+                                                                        >
+                                                                            Excluir
+                                                                        </button>
+                                                                    </td>
+                                                                </tr>
+                                                            ))
+                                                    ) : (
+                                                        <tr>
+                                                            <td colSpan="3" className="border-b p-2 text-center">
+                                                                Nenhuma poltrona cadastrada para {onibus}.
+                                                            </td>
+                                                        </tr>
+                                                    )}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    ))}
                                 </>
                             )}
+
                         </div>
                     </div>
                 </div>

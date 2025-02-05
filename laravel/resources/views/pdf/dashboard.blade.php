@@ -12,18 +12,7 @@
     </style>
 </head>
 <body>
-    <!-- <h2>Lista de Usuários</h2>
-    <table>
-        <tr><th>Nome</th><th>CPF</th></tr>
-        @foreach($users as $user)
-            <tr>
-                <td>{{ $user->nome }}</td>
-                <td>{{ $user->cpf }}</td>
-            </tr>
-        @endforeach
-    </table> -->
-
-    <h2>Lista de Poltronas</h2>
+    <h2>Lista de Poltronas - {{ $onibus }}</h2> <!-- Mostra o nome do ônibus selecionado -->
     <table>
         <tr><th>Número</th><th>Ônibus</th><th>Usuário Associado</th></tr>
         @foreach($poltronas as $poltrona)

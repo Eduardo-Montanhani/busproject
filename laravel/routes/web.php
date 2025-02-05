@@ -9,6 +9,7 @@ use App\Models\Poltrona;
 use App\Models\Usuario;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,11 +24,17 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/export-pdf', function () {
-    $users = Usuario::all();
-    $poltronas = Poltrona::with('usuario')->get();
+Route::get('/export-pdf', function (Request $request) {
+    // Obtendo o parâmetro 'onibus' da URL ou utilizando um valor padrão
+    $onibus = $request->query('onibus', 'Onibus 1');  // 'Onibus 1' é o valor padrão
 
-    $pdf = Pdf::loadView('pdf.dashboard', compact('users', 'poltronas'));
+    // Filtrando as poltronas com base no ônibus selecionado
+    $poltronas = Poltrona::with('usuario')
+        ->where('onibus', $onibus)
+        ->get();
+
+    // Gerando o PDF com as poltronas filtradas e passando 'onibus' como variável
+    $pdf = Pdf::loadView('pdf.dashboard', compact('poltronas', 'onibus'));
 
     return $pdf->download('dashboard.pdf');
 });

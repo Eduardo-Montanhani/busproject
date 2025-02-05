@@ -27,9 +27,9 @@ class PoltronaController extends Controller
     {
         // Validando o número da poltrona e o usuário
         $request->validate([
-            'numero' => 'required|unique:poltronas,numero|integer',
+            'numero' => 'required|string|max:255|unique:poltronas,numero,NULL,id,onibus,' . $request->onibus,
+            'onibus' => 'required|string|max:255',
             'usuario_id' => 'nullable|exists:usuarios,id',
-            'onibus' => 'required|string', // O usuário é opcional, mas se for passado, deve existir
         ]);
 
         // Criando a nova poltrona
@@ -74,13 +74,19 @@ class PoltronaController extends Controller
         return redirect()->route('poltronas.index')->with('success', 'Poltrona deletada com sucesso!');
     }
 
-    public function disponiveis()
+    public function disponiveis(Request $request)
     {
-        $poltronas = Poltrona::whereNull('usuario_id')->get(); // Pega só as disponíveis
-        return view('poltronas.disponiveis', [
-            'poltronas' => $poltronas,
-        ]);
+        $onibus = $request->input('onibus', 'Onibus 1'); // Define um valor padrão caso não seja passado
+
+        // Filtra as poltronas disponíveis e do ônibus selecionado
+        $poltronas = Poltrona::whereNull('usuario_id')
+            ->where('onibus', $onibus)
+            ->orderByRaw('CAST(numero AS UNSIGNED) ASC') // Ordena numericamente
+            ->get();
+
+        return view('poltronas.disponiveis', compact('poltronas', 'onibus'));
     }
+
 
     public function reservar($id)
     {
@@ -114,5 +120,18 @@ class PoltronaController extends Controller
         $poltrona->save();
 
         return redirect()->route('poltronas.disponiveis')->with('success', 'Poltrona reservada com sucesso!');
+    }
+    public function filter(Request $request)
+    {
+        // Obtendo o parâmetro 'onibus' da URL ou utilizando 'Onibus 1' como valor padrão
+        $onibus = $request->input('onibus', 'Onibus 1');
+
+        // Filtrando as poltronas com base no ônibus selecionado
+        $poltronas = Poltrona::where('onibus', $onibus)
+            ->orderByRaw('CAST(numero AS UNSIGNED) ASC') // Ordenação numérica das poltronas
+            ->get();
+
+        // Retornando as poltronas filtradas para a view
+        return view('poltronas.index', compact('poltronas', 'onibus'));
     }
 }
