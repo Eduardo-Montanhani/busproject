@@ -7,6 +7,8 @@
     <title>Poltronas Disponíveis</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
 </head>
 
 <body>
@@ -40,7 +42,7 @@
             <div class="col-md-3">
                 <div class="card shadow-sm border-light rounded">
                     <div class="card-body text-center">
-                        <i class="bi bi-chair mb-3" style="font-size: 2rem;"></i>
+                        <i class="fa-solid fa-chair mb-3" style="font-size: 2rem;"></i>
                         <h5 class="card-title mb-3">Poltrona #{{ $poltrona->numero }}</h5>
                         <form action="{{ route('poltronas.reservar', $poltrona->id) }}" method="POST">
                             @csrf
